@@ -29,7 +29,22 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 0; }
+    bottom: 0;}
+
+  button.large-button {
+    font-size: 12px; 
+    padding: 3px 6px; 
+    color: white;
+    background-color: #888;
+    border: 1.5px solid #666;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button.large-button:hover {
+    background-color: #666; 
+  }
   
   h1, h2, h3, h4, h5, h6 {
     margin: 20px 0 10px;
