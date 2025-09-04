@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will Rodman · Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    /* Shims for classes used in JSX */
+    .text-muted-foreground { color: #64748b; }
+    .bg-background\/80 { background-color: rgba(255,255,255,.8); }
+    .supports-\[backdrop-filter\]\:bg-background\/60 { background-color: rgba(255,255,255,.6); }
+    .bg-muted\/40 { background-color: rgba(226,232,240,.4); }
+    .hover\:bg-muted:hover { background-color: rgba(226,232,240,1); }
+    .backdrop-blur { backdrop-filter: blur(8px); }
+  </style>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body className="bg-white text-slate-900">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useMemo } = React;
+
+    const Icon = ({ path, className = "h-4 w-4" }) => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d={path} />
+      </svg>
+    );
+    const icons = {
+      user: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0",
+      grad: "M22 10v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6 M12 2l10 5-10 5L2 7l10-5z",
+      book: "M2 4h7a3 3 0 0 1 3 3v13H5a3 3 0 0 1-3-3z M22 4h-7a3 3 0 0 0-3 3v13h7a3 3 0 0 0 3-3z",
+      ext: "M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14L21 3",
+      mail: "M4 4h16v16H4z M22 6L12 13 2 6",
+      phone: "M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.72c.12.89.31 1.76.57 2.6a2 2 0 0 1-.45 2.11L9.1 10.9a16 16 0 0 0 4 4l1.48-1.12a2 2 0 0 1 2.11-.45c.84.26 1.71.45 2.6.57A2 2 0 0 1 22 16.92z"
+    };
+
+    const Btn = ({ href, children }) => (
+      <a href={href} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-medium bg-slate-900 text-white hover:bg-slate-800">
+        {children} <Icon path={icons.ext} />
+      </a>
+    );
+
+    const Section = ({ id, title, children }) => (
+      <section id={id} className="scroll-mt-24 py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">{title}</h2>
+            <div className="h-px bg-slate-200 w-full" />
+          </div>
+          {children}
+        </div>
+      </section>
+    );
+
+    const Panel = ({ icon, title, children }) => (
+      <div className="rounded-2xl border bg-muted/40 p-4 sm:p-5 mb-6">
+        <div className="flex items-center gap-2 mb-1">
+          {icon ? <Icon path={icon} /> : null}
+          <span className="font-medium">{title}</span>
+        </div>
+        {children ? <div className="text-muted-foreground leading-relaxed">{children}</div> : null}
+      </div>
+    );
+
+    const NAV = [
+      { id: "introduction", label: "Introduction" },
+      { id: "projects", label: "Projects" },
+      { id: "thesis", label: "Honors Thesis" },
+      { id: "research", label: "University Research" },
+      { id: "contact", label: "Contact" },
+    ];
+
+    const PROJECTS = [
+      { title: "Predicting Bond Amounts in Orleans Parish Criminal District Court", blurb: "Project tests the use of machine learning to predict initial bail amounts and uncover demographic influences on these predictions, using data from the Orleans Parish District Criminal Court. We have compiled a dataset of over 800,000 court records, focusing specifically on 9,800 cases from 2020 to 2022.", media: { type: "pdf", src: "images/Court_Watch_NOLA_poster.pdf", height: 800 } },
+      { title: "Analyzing OPEC Member Crude Oil Production Quotas", blurb: "Project analyzes OPEC crude oil production quotas and OECD countries crude oil production from 1960 to 2022.", media: { type: "pdf", src: "images/final.pdf", height: 500 }, action: { label: "Visit Webpage", href: "opec.html" } },
+      { title: "Modeling Coffee Reviews with Ordinary Least Squares", blurb: "Project studies data from coffeereview.com, which was obtained through web scraping and published on kaggle.com. Result was a linear regression model that predicts individual ratings for coffee beans.", media: { type: "pdf", src: "images/modeling_coffee_reviews.pdf", height: 500 }, action: { label: "Visit Webpage", href: "modeling_coffee_reviews.html" } },
+      { title: "Mobile Ad Hoc Network Simulation", blurb: "Application simulates a Mobile Ad Hoc Network of non-stationary clients linked through wireless connections.", media: { type: "image", src: "images/visual_output.gif" }, action: { label: "Visit Repository", href: "https://github.com/willcrodman/manet_simulation" } },
+    ];
+
+    const THESIS = {
+      thesisHtml: "This thesis developes an efficient method for measuring distances between graphs. Such methods are vital for structuring complex networks like digital road maps. Specifically, the project assesses the effectiveness of the traversal distance algorithm in machine learning classification. The aim was to enhance the precision of the k-nearest neighbors (k-NN) model for classifying geometric graphs that are represented as English letters. Previous studies have utilized various algorithms for similar purposes; however, this thesis hypothesizes that the traversal distance can offer significant computational efficiency.",
+      items: [
+        { 
+          title: "Oral Defense Presentation", 
+          descr: "Slides from my honors thesis oral defense.", 
+          media: { type: "pdf", src: "images/thesis_presenation.pdf"}, 
+          action: { label: "Visit Repository", href: "https://github.com/compgeomTU/will_rodman_thesis" } 
+        },
+        { 
+          title: "Thesis Paper", 
+          descr: "Full written thesis submitted to Tulane University.", 
+          media: { type: "pdf", src: "images/Rodman, William - Honors Thesis.pdf"}, 
+          action: { label: "Visit Repository", href: "https://github.com/compgeomTU/will_rodman_thesis" } 
+        },
+      ],
+    };
+
+    const RESEARCH = {
+      grantHtml: "This research is funded by a National Science Foundation award dedicated towards <a className='underline' href='https://www.nsf.gov/awardsearch/showAward?AWD_ID=2107434&HistoricalAwards=false' target='_blank' rel='noreferrer noopener'>A Unified Framework for Geometric and Topological Signature-Based Shape Comparison</a>.",
+      items: [
+        { title: "Fréchet Distance Python Library", descr: "Library that visualizes and computes free space between two curves using the Fréchet distance.", media: { type: "image", src: "images/figure_3.gif" }, action: { label: "Visit Repository", href: "https://github.com/compgeomTU/frechetForCurves" } },
+        { title: "Traversal Distance Visualizer", descr: "Command-line program that visualizes and computes free space ...", media: { type: "image", src: "images/arc_de_triomphe_freespace.png" }, action: { label: "Visit Repository", href: "https://github.com/compgeomTU/FSDvis" } },
+      ],
+    };
+
+    const ProjectCard = ({ p }) => (
+      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-semibold tracking-tight">{p.title}</h3>
+          {p.blurb && <p className="text-slate-600 leading-relaxed mt-2">{p.blurb}</p>}
+        </div>
+        <div className="p-4 sm:p-6 pt-0 space-y-3">
+          {p.media?.type === "image" && (<img src={p.media.src} alt={p.title} className="rounded-xl w-full" />)}
+          {p.media?.type === "pdf" && (
+            <div className="border rounded-xl overflow-hidden">
+              <iframe title={p.title} src={p.media.src} width="100%" height={p.media.height || 600} style={{ border: 0 }} />
+            </div>
+          )}
+          <div className="flex flex-wrap gap-3">
+            {p.action && <Btn href={p.action.href}>{p.action.label}</Btn>}
+          </div>
+        </div>
+      </div>
+    );
+
+    const ResearchItem = ({ item }) => (
+      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+        <div className="p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-semibold tracking-tight">{item.title}</h3>
+          <p className="text-slate-600 mt-2 leading-relaxed">{item.descr}</p>
+        </div>
+        <div className="p-4 sm:p-6 pt-0 space-y-3">
+          {item.media?.type === "image" && (<img src={item.media.src} alt={item.title} className="rounded-xl w-full" />)}
+          <div className="flex flex-wrap gap-3">{item.action && <Btn href={item.action.href}>{item.action.label}</Btn>}</div>
+        </div>
+      </div>
+    );
+
+    const App = () => (
+      <div className="min-h-screen">
+        <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex h-14 items-center justify-between">
+              <a href="#introduction" className="font-semibold tracking-tight">Will Rodman · Portfolio</a>
+              <nav className="hidden md:flex items-center gap-1">
+                {NAV.map(n => <a key={n.id} href={'#' + n.id} className="px-3 py-2 text-sm rounded-xl hover:bg-muted">{n.label}</a>)}
+              </nav>
+            </div>
+          </div>
+        </header>
+
+        <Section id="introduction" title="Introduction">
+          <img 
+            src="images/headshot.jpg" 
+            alt="Will Rodman headshot" 
+            className="rounded-2xl border w-full mx-auto object-contain mb-6" 
+          />
+          <Panel icon={icons.user} title="About Me">
+            <p>
+              I graduated from Tulane University with a Bachelors of Science in Mathematics and Computer Science and a minor in Economics. 
+              My career interests include technology consulting, developer operations, and product management.
+            </p>
+          </Panel>
+        </Section>
+
+        <Section id="projects" title="Projects">
+          <div className="grid md:grid-cols-2 gap-6">
+            {PROJECTS.map(p => <ProjectCard key={p.title} p={p} />)}
+          </div>
+        </Section>
+
+        <Section id="thesis" title="Honors Thesis">
+          <Panel icon={icons.grad} title="Overview">
+            <p className="text-muted-foreground">{/* preserve thesisHtml */}<span dangerouslySetInnerHTML={{ __html: THESIS.thesisHtml }} /></p>
+          </Panel>
+          <div className="grid md:grid-cols-2 gap-6">
+            {THESIS.items.map(item => (
+              <div key={item.title} className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-semibold tracking-tight">{item.title}</h3>
+                  <p className="text-slate-600 mt-2 leading-relaxed">{item.descr}</p>
+                </div>
+                <div className="p-4 sm:p-6 pt-0 space-y-3">
+                  {item.media?.type === "pdf" && (
+                    <div className="border rounded-xl overflow-hidden">
+                      <iframe title={item.title} src={item.media.src} width="100%" height={item.media.height || 600} style={{ border: 0 }} />
+                    </div>
+                  )}
+                  <div className="flex flex-wrap gap-3">
+                    {item.action && <Btn href={item.action.href}>{item.action.label}</Btn>}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="research" title="University Research">
+          <Panel icon={icons.book} title="Funding">
+            <p className="text-muted-foreground">This research is funded by a National Science Foundation award dedicated towards <a className='underline' href='https://www.nsf.gov/awardsearch/showAward?AWD_ID=2107434&HistoricalAwards=false' target='_blank' rel='noreferrer noopener'>A Unified Framework for Geometric and Topological Signature-Based Shape Comparison</a>.</p>
+          </Panel>
+          <div className="grid md:grid-cols-2 gap-6">
+            {RESEARCH.items.map(item => <ResearchItem key={item.title} item={item} />)}
+          </div>
+        </Section>
+
+        <Section id="contact" title="Contact Information">
+          <div className="bg-white border border-slate-200 rounded-2xl">
+            <div className="p-4 sm:p-6">
+              <h3 className="text-lg font-semibold">Get in Touch</h3>
+            </div>
+            <div className="p-4 sm:p-6 pt-0">
+              <ul className="space-y-3 text-sm">
+                <li className="flex items-center gap-3"><Icon path={icons.mail} /><span>Email: me [at] willrodman [dot] com</span></li>
+                <li className="flex items-center gap-3"><Icon path={icons.phone} /><span>Area Code: (202) Phone Number: 306-9345</span></li>
+              </ul>
+            </div>
+          </div>
+        </Section>
+
+        <footer className="border-t py-8 mt-6">
+          <div className="max-w-5xl mx-auto px-4 flex items-center justify-between gap-3 text-sm text-muted-foreground">
+            <div></div>
+            <div className="flex items-center gap-3"><a href="#introduction" className="underline">Back to top</a></div>
+          </div>
+        </footer>
+      </div>
+    );
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
