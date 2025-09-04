@@ -1,1 +1,0 @@
-# Will Rodman's Personal Website Host Repository   
