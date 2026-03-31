@@ -76,7 +76,8 @@
     ];
 
     const PROJECTS = [
-      { title: "Predicting Bond Amounts in Orleans Parish Criminal District Court", blurb: "Project tests the use of machine learning to predict initial bail amounts and uncover demographic influences on these predictions, using data from the Orleans Parish District Criminal Court. We have compiled a dataset of over 800,000 court records, focusing specifically on 9,800 cases from 2020 to 2022.", media: { type: "pdf", src: "images/Court_Watch_NOLA_poster.pdf", height: 800 } },
+      { title: "Predicting Bond Amounts in Orleans Parish Criminal District Court", blurb: "Project tests the use of machine learning to predict initial bail amounts and uncover demographic influences on these predictions, using data from the Orleans Parish District Criminal Court. We have compiled a dataset of over 800,000 court records, focusing specifically on 9,800 cases from 2020 to 2022.", media: { type: "pdf", src: "images/Court_Watch_NOLA_poster.pdf", height: 500 } },
+      { title: "MCP Server for Semantic Image Search", blurb: "Hosting a containerized 256M-parameter VLM on an Nvidia L4 GPU, ingesting Google Workspace images via OAuth 2.0 and storing embeddings in PostgreSQL (tsvector) to enable semantic image search for AI chatbots.", media: { type: "video", src: "images/lightbin_demo.mov" }, action: { label: "Visit Website", href: "https://lightbin.ai" } },
       { title: "Analyzing OPEC Member Crude Oil Production Quotas", blurb: "Project analyzes OPEC crude oil production quotas and OECD countries crude oil production from 1960 to 2022.", media: { type: "pdf", src: "images/final.pdf", height: 500 }, action: { label: "Visit Webpage", href: "opec.html" } },
       { title: "Modeling Coffee Reviews with Ordinary Least Squares", blurb: "Project studies data from coffeereview.com, which was obtained through web scraping and published on kaggle.com. Result was a linear regression model that predicts individual ratings for coffee beans.", media: { type: "pdf", src: "images/modeling_coffee_reviews.pdf", height: 500 }, action: { label: "Visit Webpage", href: "modeling_coffee_reviews.html" } },
       { title: "Mobile Ad Hoc Network Simulation", blurb: "Application simulates a Mobile Ad Hoc Network of non-stationary clients linked through wireless connections.", media: { type: "image", src: "images/visual_output.gif" }, action: { label: "Visit Repository", href: "https://github.com/willcrodman/manet_simulation" } },
@@ -116,6 +117,7 @@
         </div>
         <div className="p-4 sm:p-6 pt-0 space-y-3">
           {p.media?.type === "image" && (<img src={p.media.src} alt={p.title} className="rounded-xl w-full" />)}
+          {p.media?.type === "video" && (<video src={p.media.src} autoPlay loop muted playsInline className="rounded-xl w-full" />)}
           {p.media?.type === "pdf" && (
             <div className="border rounded-xl overflow-hidden">
               <iframe title={p.title} src={p.media.src} width="100%" height={p.media.height || 600} style={{ border: 0 }} />
